@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <title>GPA Calculator</title>
+  <style>
+    *{
+        font-family: 'Poppins';
+        background-color: rgb(14, 114, 14);
+    }
+    h1{
+        text-align: center;
+        color: white;
+        font-size: clamp(1rem, 2.5vw, 2rem); 
+    }
+    #result {
+        font-size: clamp(1rem, 2.5vw, 2rem); 
+      font-weight: bold;
+      text-align: center;
+      margin-top: 5%;
+      background-color: white;
+    }
+    .myGrades{
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, .15);  
+        backdrop-filter: blur(10px);
+        width: 60vw;
+        padding: 2%;
+        border-radius: 12px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 5%;
+    }
+    .myGrades .hGrades{ 
+        color: white;
+        background-color: rgba(255, 255, 255, 0);  ;
+        font-size: clamp(.5rem, 2.5vw, 1rem); 
+        text-align: center;
+    }
+    .myGrades p{
+        color: white;
+        background-color: rgba(255, 255, 255, 0);  ;
+        font-size: clamp(.3rem, 2.5vw, .8rem);
+        text-align: center;
+    }
+    .myGrades textarea{
+        height: 30vh;
+        width: 40vw;
+        margin-top: 3%;
+        margin-right: auto;
+        margin-left: auto;
+        background-color: white;
+    }
+    .myGrades button{
+        margin-top: 3%;
+        height: 50px;
+        width: 40vw;
+        margin-right: auto;
+        margin-left: auto;
+        font-weight: 600;
+        border: 0px;
+        color: rgb(0, 0, 0);
+        font-size: clamp(.5rem, 2.5vw, 1rem); 
+        background-color: rgb(255, 215, 36);
+    }
+    .myGrades button:hover{
+        transition: .5s;
+        color: white;
+        background-color: rgb(19, 160, 19);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgb(255, 255, 255);
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      background-color: white;
+    }
+    img{
+        width: 10%;
+        height: 10%;
+        margin-right: auto;
+        margin-left: auto;
+        display: flex;
+    }
+
+  </style>
+</head>
+<body>
+    <img src="cv.png" alt="">
+    <h1>CvSU GPA Calculator</h1>
+
+  <!-- Replace the input element with a textarea -->
+ 
+
+    <div class="myGrades">
+        <label class="hGrades" for="grades">Enter your grades (comma-separated):</label>
+        <textarea id="grades" placeholder="e.g. 1, 1.25, 1.5"></textarea>
+        <!-- Call the calculateAverage() function on button click -->
+        <button class="calc" onclick="calculateAverage()">Calculate</button>
+        <p>The information presented was derived from the student handbook of the university.</p>
+    </div>
+
+  <!-- The modal -->
+  <div id="result-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="hideResultModal()">&times;</span>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    function calculateAverage() {
+      var gradesInput = document.getElementById('grades').value;
+      var grades = gradesInput.split(',').map(function(grade) {
+        return parseFloat(grade.trim());
+      });
+
+      var sum = grades.reduce(function(total, grade) {
+        return total + grade;
+      }, 0);
+
+      var average = sum / grades.length;
+
+      var resultElement = document.getElementById('result');
+      resultElement.innerHTML = 'Average: ' + average.toFixed(2);
+
+      if (average >= 1 && average <= 1.20) {
+        resultElement.innerHTML += '<br><br> Summa Cum Laude🎉<br> Congratulations!';
+      } else if (average >= 1.21 && average <= 1.45) {
+        resultElement.innerHTML += '<br><br> Magna Cum Laude🎉<br> Congratulations!';
+      } else if (average >= 1.46 && average <= 1.75) {
+        resultElement.innerHTML += '<br><br> Cum Laude 🎉<br> Congratulations!';
+      } else {
+        resultElement.innerHTML += '<br><br> Invalid Input';
+      }
+
+      showResultModal();
+    }
+
+    function showResultModal() {
+      var modal = document.getElementById('result-modal');
+      modal.style.display = 'block';
+    }
+
+    function hideResultModal() {
+      var modal = document.getElementById('result-modal');
+      modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
